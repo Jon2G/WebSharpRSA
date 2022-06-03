@@ -34,11 +34,11 @@ jobs:
 
     # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
-      run: dotnet publish SharpRSA/SharpRSA.csproj -c Release -o release --nologo
+      run: dotnet publish WebSharpRSA/WebSharpRSA.csproj -c Release -o release --nologo
     
     # changes the base-tag in index.html from '/' to 'EuclidsPolynomialsEqSolver' to match GitHub Pages repository subdirectory
-    - name: Change base-tag in index.html from / to SharpRSA
-      run: sed -i 's/<base href="\/" \/>/<base href="\/SharpRSA\/" \/>/g' release/wwwroot/index.html
+    - name: Change base-tag in index.html from / to WebSharpRSA
+      run: sed -i 's/<base href="\/" \/>/<base href="\/WebSharpRSA\/" \/>/g' release/wwwroot/index.html
     
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
