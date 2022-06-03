@@ -23,22 +23,33 @@ jobs:
         # Relative path from current directory, where to clone.
         path: ./../Kit
         # optional
+        
+    - name: Git Clone SharpRSA_c272
+    # You may pin to the exact commit or the version.
+    # uses: sudosubin/git-clone-action@8a93ce24d47782e30077508cccacf8a05a891bae
+      uses: sudosubin/git-clone-action@v1.0.1
+      with:
+        # Repository owner and name. Ex: sudosubin/git-clone-action
+        repository: Jon2G/SharpRSA_c272
+        # Relative path from current directory, where to clone.
+        path: ./../SharpRSA_c272
+        # optional
     
     # sets up .NET Core SDK 3.1
     - name: Setup .NET Core SDK
       uses: ricado-group/dotnet-library-build-release-action@v1.3.0 #actions/setup-dotnet@v2.1.0
       with: 
-        project-name: SharpRSA
+        project-name: WebSharpRSA
      #with:
      #   dotnet-version: 6.0
 
     # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
-      run: dotnet publish SharpRSA/SharpRSA.csproj -c Release -o release --nologo
+      run: dotnet publish WebSharpRSA/WebSharpRSA.csproj -c Release -o release --nologo
     
     # changes the base-tag in index.html from '/' to 'EuclidsPolynomialsEqSolver' to match GitHub Pages repository subdirectory
-    - name: Change base-tag in index.html from / to SharpRSA
-      run: sed -i 's/<base href="\/" \/>/<base href="\/SharpRSA\/" \/>/g' release/wwwroot/index.html
+    - name: Change base-tag in index.html from / to WebSharpRSA
+      run: sed -i 's/<base href="\/" \/>/<base href="\/WebSharpRSA\/" \/>/g' release/wwwroot/index.html
     
     # copy index.html to 404.html to serve the same file when a file is not found
     - name: copy index.html to 404.html
