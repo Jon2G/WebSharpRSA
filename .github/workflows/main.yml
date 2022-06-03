@@ -23,6 +23,17 @@ jobs:
         # Relative path from current directory, where to clone.
         path: ./../Kit
         # optional
+        
+    - name: Git Clone SharpRSA_c272
+    # You may pin to the exact commit or the version.
+    # uses: sudosubin/git-clone-action@8a93ce24d47782e30077508cccacf8a05a891bae
+      uses: sudosubin/git-clone-action@v1.0.1
+      with:
+        # Repository owner and name. Ex: sudosubin/git-clone-action
+        repository: Jon2G/SharpRSA_c272
+        # Relative path from current directory, where to clone.
+        path: ./../SharpRSA_c272
+        # optional
     
     # sets up .NET Core SDK 3.1
     - name: Setup .NET Core SDK
