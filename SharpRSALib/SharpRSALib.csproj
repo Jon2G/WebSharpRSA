@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Kit\Kit\Kit.csproj" />
-    <ProjectReference Include="..\..\SharpRSA_c272\SharpRSA\SharpRSA.csproj" />
+    <ProjectReference Include="..\..\SharpRSA\SharpRSA\SharpRSA.csproj" />
   </ItemGroup>
 
 </Project>
