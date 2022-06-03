@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Kit\Kit\Kit.csproj" />
-    <ProjectReference Include="..\SharpRSALib\SharpRSALib.csproj" />
+    <ProjectReference Include="..\SharpRSALib\WebSharpRSALib.csproj" />
   </ItemGroup>
 
 </Project>

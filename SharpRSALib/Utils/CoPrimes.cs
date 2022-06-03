@@ -27,7 +27,7 @@ namespace SharpRSALib.Utils
             do
             {
                 sum += exponent;
-                mod = Kit.Security.Encryption.Modulus.Mod(sum, phi);
+                mod = Kit.Security.Encryption.Modulus.Mod(ba: sum, bb: phi);
             } while (!mod.IsZero);
             return sum / exponent - 1;
         }
