@@ -1,0 +1,16 @@
+﻿@page "/about"
+@inject IJSRuntime _jsRuntime
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<button class="btn btn-primary" @onclick="ViewCode">Ver código en Github</button>
+
+@code
+{
+    public async Task ViewCode()
+    {
+        string url = "https://github.com/Jon2G/EuclidsPolynomialsEqSolver";
+        await _jsRuntime.InvokeAsync<object>("open", url, "_blank");
+    }
+}

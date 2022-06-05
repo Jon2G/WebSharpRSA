@@ -1,0 +1,157 @@
+﻿@page "/theory"
+@inject IJSRuntime _jsRuntime
+
+<PageTitle>Teoría</PageTitle>
+
+<div style="text-align: center">
+    <h3>INSTITUTO POLITÉCNICO NACIONAL</h3>
+
+    <h4>ESCUELA SUPERIOR DE INGENIERÍA MECANICA Y ELECTRICA
+        <br/>
+        UNIDAD CULHUACAN
+    </h4>
+
+    <h5>MAESTRÍA EN INGENIERÍA EN SEGURIDAD Y TECNOLOGÍAS DE LA INFORMACIÓN</h5>
+</div>
+
+<div style="text-align: center; margin: 10px; padding: 10px;">
+    <div style="border: solid black 2px"/>
+    <div style="border: solid black 1px; width: 70%; margin-left: 15%; margin-top: 5px;margin-bottom: 5px;"/>
+    <h4>IMPLEMENTACIÓN DEL ALGORITMO DE CIFRADO RSA</h4>
+    <div style="border: solid black 1px; width: 70%; margin-left: 15%; margin-top: 5px;margin-bottom: 5px;"/>
+    <div style="border: solid black 2px"/>
+</div>
+
+<div style="text-align: center; margin: 10px; padding: 10px;">
+    <h5>Presenta:</h5>
+    <h5>Jonathan Eduardo Garcíá García</h5>
+    <a href="mailto:jgarciag1404@alumno.ipn.mx">jgarciag1404@alumno.ipn.mx</a>
+</div>
+
+<div style="margin: 10px; padding: 10px;">
+    <h6>Profesor:</h6>
+    <h6>Dr. Eduardo Vázquez Fernández</h6>
+</div>
+
+
+<button class="btn btn-primary" @onclick="ViewCode">Ver código en Github</button>
+
+<div style="height: 10vh"/>
+
+<h5>Campos finitos</h5>
+Un campo finito consiste de un conjunto finito de elementos F sobre el
+cual se definen un par de operaciones binarias + y ·, las cuales satisfacen las
+siguientes propiedades aritméticas:<br/>
+<ol>
+    <li> (F, +) es un grupo abeliano, denominado el grupo aditivo del campo.</li>
+    <li> (F ∗ = F − 0, ·) es un grupo abeliano, al que se denomina grupo multiplicativo del campo.</li>
+    <li> El producto tiene la propiedad distributiva respecto de la suma, esto es, a · (b + c) = a · b + a · c.</li>
+</ol>
+El orden de un campo finito es el número de elementos en el campo. Existe
+un campo finito de orden q si y solo si q es la potencia de un número primo.
+Si q es la potencia de un primo, existe esencialmente un solo campo finito
+de orden q al cual denotaremos como GF(q). Existen, sin embargo, varias
+maneras de representar a los elementos de GF(q). Algunas de estas representaciones darán origen a implementaciones más eficientes de la aritmética
+del campo.
+<br/>
+Si q = p
+m donde p es un primo y m un entero positivo, entonces p es
+denominado la característica del campo GF(q) y m es denominado el grado
+de extensión de GF(q).
+
+<div style="height: 5vh"/>
+
+<h5>Campo finito GF(2m)</h5>
+El campo GF(2m), denominado un campo finito de característica dos o
+campo finito binario, puede ser visto como un espacio vectorial de dimensión
+m sobre el campo GF(2). Esto es, existen m elementos α0, α1, . . . , αm−1 en
+GF(2m) tales que cada elemento α ∈ GF(2m) puede ser escrito en forma única como:
+α = a0α0 + a1α1 + · · · + am−1αm−1,
+donde ai ∈ {0, 1}. Al conjunto {α0, α1, . . . , αm−1} se le denomina una base de
+GF(2m) sobre GF(2). Dada una base tal, un elemento α del campo puede ser
+representado por la cadena de bits (a0a1 · · · am−1). La adición de elementos
+en el campo se realiza mediante el XOR bit a bit de sus representaciones
+vectoriales.
+Existen diferentes bases de GF(2m) sobre GF(2). Algunas bases dan
+origen a implementaciones más eficientes en hardware o software de la aritmética sobre GF(2m). El estándar ANSI X9.62 permite dos tipos de
+bases: las bases polinomiales y las bases normales.
+
+<div style="height: 5vh"/>
+
+<h5>Algoritmo Extendido de Euclides</h5>
+
+Se tiene dos polinomios a y b, ambos diferentes de cero. El Maximo Común Divisor (MCD) de a y b, denotado por
+MCD (a, b), es el polinomio d del grado más alto que divide ambos polinomios a y b.
+Existen algoritmos para el cálculo del MCD(a, b) basados en el siguiente teorema.
+<div class="theorem">
+    Se tiene dos polinomios a y b. Entonces MCD = (a, b) = MCD(b − ca, a) para cualquier polinomio c.
+</div>
+
+En el Algoritmo de Euclides clásico para el cálculo del MCD de dos polinomios a y b, cuando el grado(b) ≥ grado(a),
+b es divido por a para obtener un cociente q y un residuo r, que satisfacen la ecuación b = qa + r y grado(r) ≺ grado(a). Por
+el Teorema 1, el MCD(a, b) = MCD(r, a). Así, el problema de determinar el MCD(a, b) es reducido a calcular MCD(r, a)
+donde los argumentos (r, a) tienen un grado menor que el grado de los argumentos originales (a, b). Este proceso es repetido
+hasta que uno de los argumentos es cero. El resultado obtenido inmediatamente de MCD(0, d) es d. Por otro lado, este
+algoritmo es eficiente porque el número de divisiones enteras es a lo más k, donde k = grado(a).
+En una variante del algoritmo clásico de Euclides, solamente un paso en cada división entera es modificado. Esto es, si
+el grado(b) ≥ grado(a) y j = grado(b) − grado(a) entonces sólo se calcula u ← u + v, g1 ← g1 + g2. Por el Teorema 1,
+MCD(a, b) = MCD(r, a). Este proceso es repetido hasta encontrar un residuo igual a cero. Si el grado(r) ≺ grado(b), el
+número de divisiones enteras es a lo más k, en donde k = max {grado(a), grado(b)}.
+
+<section style="text-align: center">
+    <figure>
+        <img style="margin: auto" src="imgs/eea_alg.jpg" />
+        <figcaption>
+            Algoritmo Extendido de Euclides
+        </figcaption>
+    </figure>
+</section>
+
+<h5>Implementación propuesta:</h5>
+<pre class="line-numbers">
+<code class="language-cs">
+        @((MarkupString)@"PolynomialEq gx = this.Gx.Clone();
+PolynomialEq hx = this.Hx.Clone();
+PolynomialEq s2 = new PolynomialEq(""S_2"", XTerm.One);
+PolynomialEq s1 = new PolynomialEq(""S_1"", XTerm.Zero);
+PolynomialEq t2 = new PolynomialEq(""T_"", XTerm.Zero);
+PolynomialEq t1 = new PolynomialEq(""T_1"", XTerm.One);
+while (hx.IsNotZero)
+{
+    //Linea 9
+    PolynomialDivisionResult qxDiv = gx / hx;
+    PolynomialEq qx = qxDiv.Result.Mod().SetLetter('q');
+    PolynomialEq rx = qxDiv.Remainder.Mod().SetLetter('r');
+    //Linea 10
+    PolynomialEq sx = (s2 - (qx * s1)).Mod().SetLetter('s');
+    PolynomialEq tx = (t2 - (qx * t1)).Mod().SetLetter('t');
+    //Linea 11
+    gx = hx.Clone().SetLetter('g');
+    hx = rx.Clone().SetLetter('h');
+    //Linea 12
+    s2 = s1.Clone().SetLetter(""s2"");
+    s1 = sx.Clone().SetLetter(""s1"");
+    t2 = t1.Clone().SetLetter(""t2"");
+    t1 = tx.Clone().SetLetter(""t1"");
+}
+//Linea 14
+Dx = gx;
+Sx = s2;
+Tx = t2;");
+  </code>
+</pre>
+
+<div style="height: 10vh"/>
+
+@code
+{
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await _jsRuntime.InvokeVoidAsync("Prism.highlightAll");
+    }
+    public async Task ViewCode()
+    {
+        string url = "https://github.com/Jon2G/WebSharpRSA";
+        await _jsRuntime.InvokeAsync<object>("open", url, "_blank");
+    }
+}

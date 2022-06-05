@@ -1,0 +1,195 @@
+﻿@page "/"
+@page "/calculator"
+@using WebSharpRSA.PopUps
+@using AsyncAwaitBestPractices
+@inject IDialogService DialogService
+
+<style scoped>
+    .hidde-password > div >div > textarea {
+        color: transparent!important;
+        text-shadow: 0 0 8px rgba(0,0,0,0.5);
+    }
+</style>
+<PageTitle>Calculator</PageTitle>
+
+<h4>Algoritmo de cifrado RSA</h4>
+<div style="height: 3vh"></div>
+<MudPaper Class="pa-4">
+    <h5>Llaves de cifrado</h5>
+    <div style="height: 2vh"></div>
+    <MudForm @bind-IsValid="@isValid" @ref="form">
+        <MudGrid Spacing="2" Justify="Justify.FlexStart">
+            <MudItem xs="6">
+                <h6>Llave publica</h6>
+                <MudTextField T="string" Label="Llave pública" Variant="Variant.Outlined"
+                              Validation="@(new Func<string, IEnumerable<string>>(ValidateKey))"
+                              Lines="10" @bind-Value="@PublicKey" />
+            </MudItem>
+            <MudItem xs="6">
+                <h6>Llave privada</h6>
+                <MudTextField T="string" Label="Llave privada" Variant="Variant.Outlined"
+                              Lines="10" @bind-Value="@PrivateKey" InputType="@(ShowPrivateKey? InputType.Text:InputType.Password)"
+                              Class="@(ShowPrivateKey? "":"hidde-password")"
+                              Adornment="Adornment.End" AdornmentIcon="@(ShowPrivateKey? Icons.Material.Filled.Visibility:Icons.Material.Filled.VisibilityOff)"
+                              Validation="@(new Func<string, IEnumerable<string>>(ValidateKey))"
+                              OnAdornmentClick="() => { ShowPrivateKey = !ShowPrivateKey;StateHasChanged(); }" AdornmentAriaLabel="Mostrar llave privada" />
+            </MudItem>
+        </MudGrid>
+
+        <MudGrid Spacing="2" Justify="Justify.FlexStart">
+
+            <MudItem xs="12">
+                <MudGrid Spacing="2" Justify="Justify.FlexStart">
+                    <MudItem xs="4">
+                        <MudSelect Label="Tamaño de la llave" Variant="Variant.Filled" T="KeySize" @bind-value="@KeySize">
+                            <MudSelectItem Value="KeySize.K256">256</MudSelectItem>
+                            <MudSelectItem Value="KeySize.K512">512</MudSelectItem>
+                            <MudSelectItem Value="KeySize.K1024">1024</MudSelectItem>
+                            <MudSelectItem Value="KeySize.K2048">2048</MudSelectItem>
+                        </MudSelect>
+                    </MudItem>
+                    <MudItem xs="4" Style="margin-top: auto;">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Style="height: 55px;"
+                                   StartIcon="@Icons.Material.Filled.Key" OnClick="@GenerateKeys">Generar par de llaves</MudButton>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>
+@*            <MudItem xs="12">
+                <MudGrid Spacing="2" Justify="Justify.FlexStart">
+                    <MudItem xs="2">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.Download" OnClick="@Download">Descargar</MudButton>
+                    </MudItem>
+
+
+                    <MudItem xs="2">
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" Style="width: 100%;"
+                                   StartIcon="@Icons.Material.Filled.Upload" OnClick="@Upload">Cargar</MudButton>
+                    </MudItem>
+
+                    <MudItem xs="2">
+                        <MudButton Variant="Variant.Filled"
+                                   OnClick="@ClearKey"
+                                   StartIcon="@Icons.Material.Filled.RestoreFromTrash">Limpiar</MudButton>
+                    </MudItem>
+                </MudGrid>
+            </MudItem>*@
+        </MudGrid>
+
+        <div style="height: 2vh"></div>
+        <h6>Texto:</h6>
+        <MudTextField T="string" Label="Texto:" Variant="Variant.Outlined" Lines="10" @bind-Value="@Text" />
+
+        <MudSwitch @bind-Checked="@CipherMode" ThumbIcon="@(CipherMode ? Icons.Material.Filled.LockOpen : Icons.Material.Filled.Lock)" ThumbIconColor="@(CipherMode? Color.Success : Color.Error)">@(CipherMode? "Decifrar":"Cifrar")</MudSwitch>
+
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true"
+                   Style="margin-top: 10px;margin-bottom: 10px;margin-right:10px"
+                   StartIcon="@Icons.Material.Filled.Key" OnClick="@Cipher">@(CipherMode? "Decifrar":"Cifrar")</MudButton>
+        <MudButton Variant="Variant.Filled" DisableElevation="true"
+                   OnClick="@Clear" Style="margin-top: 10px;margin-bottom: 10px;margin-right:10px"
+                   StartIcon="@(CipherMode ? Icons.Material.Filled.LockOpen : Icons.Material.Filled.Lock)">Limpiar</MudButton>
+
+        <div style="height: 20px" />
+
+
+
+    </MudForm>
+</MudPaper>
+
+@code {
+
+    MudForm form;
+    bool isValid;
+    bool CipherMode;
+    bool ShowPrivateKey;
+
+    KeyPair? Key { get; set; }
+    KeySize KeySize { get; set; } = KeySize.K512;
+
+    string PrivateKey
+    {
+        get => Key?.PrivateKey?.ToString() ?? "";
+        set
+        {
+            if (SharpRSA.Key.TryParseFromBase64(value, out Key pkey))
+            {
+                Key = new KeyPair(pkey, Key.PublicKey);
+            }
+        }
+    }
+
+    string PublicKey
+    {
+        get => Key?.PublicKey?.ToString() ?? "";
+        set
+        {
+            if (SharpRSA.Key.TryParseFromBase64(value, out Key pkey))
+            {
+                Key = new KeyPair(Key.PrivateKey, pkey);
+            }
+            Key = new KeyPair(Key.PrivateKey, null);
+        }
+    }
+    string Text { get; set; } = "Hola mundo";
+
+
+    private IEnumerable<string> ValidateKey(string value)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            if (!SharpRSA.Key.TryParseFromBase64(value, out _))
+            {
+                yield return "Formato de llave invalido";
+            }
+        }
+    }
+
+
+
+    private void GenerateKeys()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = false, CloseButton = false, DisableBackdropClick = true, FullScreen = false, Position = DialogPosition.Center };
+        var parameters = new DialogParameters { { nameof(MakeKeyPairDialog.KeySize), KeySize } };
+        var dialog = DialogService.Show<MakeKeyPairDialog>("Generando par de llaves.", parameters, options);
+        dialog.Result.ContinueWith(t =>
+        {
+            if (t.Result.Data is KeyPair keys)
+                this.Key = keys;
+            InvokeAsync(StateHasChanged).SafeFireAndForget();
+        }).SafeFireAndForget();
+    }
+
+    private async Task Clear()
+    {
+        Text = string.Empty;
+        await form.Validate();
+    }
+    private async Task ClearKey()
+    {
+        Key = null;
+        await form.Validate();
+    }
+
+    private async Task Cipher()
+    {
+        await form.Validate();
+        if (!isValid || string.IsNullOrEmpty(Text) || Key is null)
+        {
+            return;
+        }
+        try
+        {
+            if (CipherMode)
+            {        Text = RSA.Decrypt(Text, Key.PrivateKey);
+                return;
+            }
+            Text=
+                RSA.Encrypt(Text,Key.PublicKey);
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+
+}

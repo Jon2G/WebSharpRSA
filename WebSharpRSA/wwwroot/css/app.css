@@ -14,7 +14,7 @@ a, .btn-link {
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
+    background-color: #1B6EC2;
     border-color: #1861ac;
 }
 
@@ -61,4 +61,78 @@ a, .btn-link {
 
     .blazor-error-boundary::after {
         content: "An error has occurred."
+    }
+
+.col {
+    padding: 0px;
+    margin: 0px;
+}
+
+p {
+    font-size: 16px;
+}
+
+.top-row {
+    width: 100%;
+    margin: 0px;
+}
+
+.footer {
+    background-color: #f7f7f7;
+    border-top: 1px solid #d6d5d5;
+    justify-content: flex-end;
+    padding: 0px;
+    margin: 0px;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+    .footer > p {
+        margin-top: auto;
+        margin-bottom: auto;
+        margin-right: 20px;
+        font-size: 12px;
+    }
+/*Oveeride latex**/
+body {
+    max-width: none !important;
+    padding: 0px !important;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+    display: initial !important;
+    text-align: center;
+    margin: 1em 0px;
+}
+
+.step-block {
+    background-color: whitesmoke;
+    margin: 10px;
+    border-width: 10px;
+    border: dotted 2px black;
+    padding: 10px;
+    text-decoration: none;
+    position: relative;
+    border-radius: 2px;
+}
+
+    .step-block:hover {
+        background: aliceblue;
+    }
+
+    .step-block .badge {
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        padding: 5px 10px;
+        border-radius: 50%;
+        background: red;
+        color: white;
+        font-size: 18px;
     }

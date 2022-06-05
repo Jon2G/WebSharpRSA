@@ -1,0 +1,29 @@
+﻿@using AsyncAwaitBestPractices
+<MudDialog>
+    <DialogContent>
+        <div style="text-align: center;margin: auto">
+            <img src="imgs/key-big-new.gif" style="height: 50vh"/>
+        </div>
+    </DialogContent>
+</MudDialog>
+@code
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public KeySize KeySize { get; set; } = KeySize.K256;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            Task.Delay(1000);
+            Task.Run(() => RSA.GenerateKeyPair(KeySize))
+            .ContinueWith(t =>
+            {
+                MudDialog.Close(DialogResult.Ok(t.Result));
+            }).SafeFireAndForget();
+        }
+    }
+}

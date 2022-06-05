@@ -26,23 +26,6 @@ namespace TestProject
             string text = TextConverter.ToText(number);
             Assert.That(text, Is.EqualTo(sb.ToString()));
         }
-        [Test]
-        public void Cipher()
-        {
-            KeyPair kp = RSA.GenerateKeyPair(KeySize.K1024);
-            string plain = "Hello RSA";
-            string ciphed = RSA.Encrypt(plain, kp.public_);
-            Assert.That(ciphed, Is.Not.EqualTo(plain));
-        }
-
-        [Test]
-        public void Decipher()
-        {
-            KeyPair kp = RSA.GenerateKeyPair(KeySize.K1024);
-            string ciphed = "CulTB1a3AQ775z4CYlfL9rkD1jtdiMK3qLoYgaQ3vttcE0XLue/vG45eBDRumSrK95H7BJ/4sw/GInvaCgEe1POUUR/4hB/uSw37vkJ56OojEWd/mszvdwg4lHEf3nD8+XDdLcNRT3QmKq5pyeAc6mFgWY4dGBygUdOPecCNGpkA";
-            string plain = RSA.Decrypt(ciphed, kp.private_);
-            Assert.That(ciphed, Is.Not.EqualTo(plain));
-        }
 
         [Test]
         public void GenerateCoprimes()
@@ -77,14 +60,23 @@ namespace TestProject
             Assert.That(Kit.Security.Encryption.Modulus.Mod(exponent * key, phi), Is.EqualTo(BigInteger.One));
         }
 
+        [Test]
+        public void KeyPairToBase64()
+        {
+            KeyPair kp = RSA.GenerateKeyPair(KeySize.K2048);
+            string json = kp.ToJson();
+            KeyPair jsonKp = KeyPair.FromJson(json);
+            string json2 = jsonKp.ToJson();
+            Assert.That(json2, Is.EqualTo(json));
+        }
 
         [Test]
         public void MainTest()
         {
             KeyPair kp = RSA.GenerateKeyPair(KeySize.K1024);
             string plain = "Hello RSA";
-            string ciphed = RSA.Encrypt(plain, kp.public_);
-            string deciphed = RSA.Decrypt(ciphed, kp.private_);
+            string ciphed = RSA.Encrypt(plain, kp.PublicKey);
+            string deciphed = RSA.Decrypt(ciphed, kp.PrivateKey);
             Assert.That(deciphed, Is.EqualTo(plain));
         }
     }
