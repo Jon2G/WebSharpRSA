@@ -33,6 +33,7 @@ jobs:
         repository: Jon2G/SharpRSA
         # Relative path from current directory, where to clone.
         path: ./../SharpRSA
+        ref: jon2g
         # optional
     
     # sets up .NET Core SDK 3.1
