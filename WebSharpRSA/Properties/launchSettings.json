@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "SharpRSA": {
+    "WebSharpRSA": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
