@@ -136,3 +136,7 @@ mjx-container[jax="CHTML"][display="true"] {
         color: white;
         font-size: 18px;
     }
+
+mjx-c::before {
+    font-size: 18px;
+}

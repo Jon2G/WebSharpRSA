@@ -1,13 +1,17 @@
 ﻿@page "/theory"
+@inherits MathJaxContentComponent
 @inject IJSRuntime _jsRuntime
 
 <PageTitle>Teoría</PageTitle>
 
+
+
 <div style="text-align: center">
     <h3>INSTITUTO POLITÉCNICO NACIONAL</h3>
 
-    <h4>ESCUELA SUPERIOR DE INGENIERÍA MECANICA Y ELECTRICA
-        <br/>
+    <h4>
+        ESCUELA SUPERIOR DE INGENIERÍA MECANICA Y ELECTRICA
+        <br />
         UNIDAD CULHUACAN
     </h4>
 
@@ -15,11 +19,11 @@
 </div>
 
 <div style="text-align: center; margin: 10px; padding: 10px;">
-    <div style="border: solid black 2px"/>
-    <div style="border: solid black 1px; width: 70%; margin-left: 15%; margin-top: 5px;margin-bottom: 5px;"/>
+    <div style="border: solid black 2px" />
+    <div style="border: solid black 1px; width: 70%; margin-left: 15%; margin-top: 5px;margin-bottom: 5px;" />
     <h4>IMPLEMENTACIÓN DEL ALGORITMO DE CIFRADO RSA</h4>
-    <div style="border: solid black 1px; width: 70%; margin-left: 15%; margin-top: 5px;margin-bottom: 5px;"/>
-    <div style="border: solid black 2px"/>
+    <div style="border: solid black 1px; width: 70%; margin-left: 15%; margin-top: 5px;margin-bottom: 5px;" />
+    <div style="border: solid black 2px" />
 </div>
 
 <div style="text-align: center; margin: 10px; padding: 10px;">
@@ -36,67 +40,70 @@
 
 <button class="btn btn-primary" @onclick="ViewCode">Ver código en Github</button>
 
-<div style="height: 10vh"/>
+<div style="height: 100px"/>
 
-<h5>Campos finitos</h5>
-Un campo finito consiste de un conjunto finito de elementos F sobre el
-cual se definen un par de operaciones binarias + y ·, las cuales satisfacen las
-siguientes propiedades aritméticas:<br/>
-<ol>
-    <li> (F, +) es un grupo abeliano, denominado el grupo aditivo del campo.</li>
-    <li> (F ∗ = F − 0, ·) es un grupo abeliano, al que se denomina grupo multiplicativo del campo.</li>
-    <li> El producto tiene la propiedad distributiva respecto de la suma, esto es, a · (b + c) = a · b + a · c.</li>
-</ol>
-El orden de un campo finito es el número de elementos en el campo. Existe
-un campo finito de orden q si y solo si q es la potencia de un número primo.
-Si q es la potencia de un primo, existe esencialmente un solo campo finito
-de orden q al cual denotaremos como GF(q). Existen, sin embargo, varias
-maneras de representar a los elementos de GF(q). Algunas de estas representaciones darán origen a implementaciones más eficientes de la aritmética
-del campo.
+<h5>El algoritmo de cifrado RSA</h5>
+El algoritmo RSA es un algoritmo criptográfico asimétrico; esto significa que utiliza una clave pública y una clave privada (es decir, dos claves diferentes vinculadas matemáticamente). Como sugieren sus nombres, una clave pública se comparte públicamente, mientras que una clave privada es secreta y no debe compartirse con nadie.
+<br />
+<br />
+El algoritmo RSA lleva el nombre de quienes lo inventaron en 1978: Ron Rivest, Adi Shamir y Leonard Adleman.
+<br />
+<br />
+La siguiente ilustración destaca cómo funciona la criptografía asimétrica:
+<img src="imgs/rsa.svg" style="max-width: 100%;height: auto;" />
+
+<b><h5>Teorema de Euler</h5></b>
+
+El teorema de Euler es la base del algoritmo RSA, y es importante entenderlo antes de explicar el algoritmo. <br/>
+La idea es que si tenemos dos números a y n tal que son coprimos, entonces:
+<Equation Value="a^{\phi(n)} \equiv 1 \;\; (\bmod n\;)" />
 <br/>
-Si q = p
-m donde p es un primo y m un entero positivo, entonces p es
-denominado la característica del campo GF(q) y m es denominado el grado
-de extensión de GF(q).
+<div style="height: 30px"/>
+Donde 
+<Equation Value="\phi{n}"/>
+es conocida como la función 
+<Equation Value="\phi"/>
+de Euler, y para números primos, es: 
+<Equation Value="\phi{p} = p - 1"/>
+<br/>
+Para un producto de dos números primos 
+<Equation Value="pq"/>
+entonces 
+<Equation Value="\phi(pq) = \phi(p) \phi(q)"/>
 
-<div style="height: 5vh"/>
 
-<h5>Campo finito GF(2m)</h5>
-El campo GF(2m), denominado un campo finito de característica dos o
-campo finito binario, puede ser visto como un espacio vectorial de dimensión
-m sobre el campo GF(2). Esto es, existen m elementos α0, α1, . . . , αm−1 en
-GF(2m) tales que cada elemento α ∈ GF(2m) puede ser escrito en forma única como:
-α = a0α0 + a1α1 + · · · + am−1αm−1,
-donde ai ∈ {0, 1}. Al conjunto {α0, α1, . . . , αm−1} se le denomina una base de
-GF(2m) sobre GF(2). Dada una base tal, un elemento α del campo puede ser
-representado por la cadena de bits (a0a1 · · · am−1). La adición de elementos
-en el campo se realiza mediante el XOR bit a bit de sus representaciones
-vectoriales.
-Existen diferentes bases de GF(2m) sobre GF(2). Algunas bases dan
-origen a implementaciones más eficientes en hardware o software de la aritmética sobre GF(2m). El estándar ANSI X9.62 permite dos tipos de
-bases: las bases polinomiales y las bases normales.
+<div style="height: 50px"/>
+<b><h5> Generando las claves</h5></b>
+<ol>
+    <li>Seleccione dos números primos grandes x,y.<br/>
+        Los números primos deben ser grandes para que a alguien le resulte difícil descifrar.
+    </li>
+    <div style="height: 10px"/>
+    <li>Calcular <Equation Value="n=x*y"/></li>
+    <div style="height: 10px"/>
+    <li>Calcular la función Phi <Equation Value="\phi(n)=(x-1)(y-1)"/></li>
+    <div style="height: 10px"/>
+    <li>Seleccionar un número entero e, tal que e sea coprimo con <Equation Value="\phi(n)"/> y <Equation Value="1<e<\phi(n)" /><br/>El par de números (n,e) conforman la llave pública.</li>
+    <div style="height: 10px"/>
+    <MudCard Style="background-color: ghostwhite">
+        <MudCardHeader Style="padding: 3px"><h6><b>Nota:</b></h6></MudCardHeader>
+        <MudCardContent Style="padding: 3px">
+            <p>Dos enteros son coprimos si solo un el único entero positivo los divide es 1</p>
+        </MudCardContent>
+    </MudCard>
+    <div style="height: 10px"/>
+    <li>Calcular d de tal forma que <Equation Value="e*d=1mod(\phi(n))"/> 
+        <div style="height: 10px"/>
+        El par de números n,d conforman la llave privada.
+        <div style="height: 10px"/>
+        <MudCard Style="background-color: ghostwhite">
+            <MudCardContent Style="padding: 3px">
+                <p>d puede ser encontrada utilizando el algoritmo extendido de Euclides</p>
+            </MudCardContent>
+        </MudCard>
 
-<div style="height: 5vh"/>
-
-<h5>Algoritmo Extendido de Euclides</h5>
-
-Se tiene dos polinomios a y b, ambos diferentes de cero. El Maximo Común Divisor (MCD) de a y b, denotado por
-MCD (a, b), es el polinomio d del grado más alto que divide ambos polinomios a y b.
-Existen algoritmos para el cálculo del MCD(a, b) basados en el siguiente teorema.
-<div class="theorem">
-    Se tiene dos polinomios a y b. Entonces MCD = (a, b) = MCD(b − ca, a) para cualquier polinomio c.
-</div>
-
-En el Algoritmo de Euclides clásico para el cálculo del MCD de dos polinomios a y b, cuando el grado(b) ≥ grado(a),
-b es divido por a para obtener un cociente q y un residuo r, que satisfacen la ecuación b = qa + r y grado(r) ≺ grado(a). Por
-el Teorema 1, el MCD(a, b) = MCD(r, a). Así, el problema de determinar el MCD(a, b) es reducido a calcular MCD(r, a)
-donde los argumentos (r, a) tienen un grado menor que el grado de los argumentos originales (a, b). Este proceso es repetido
-hasta que uno de los argumentos es cero. El resultado obtenido inmediatamente de MCD(0, d) es d. Por otro lado, este
-algoritmo es eficiente porque el número de divisiones enteras es a lo más k, donde k = grado(a).
-En una variante del algoritmo clásico de Euclides, solamente un paso en cada división entera es modificado. Esto es, si
-el grado(b) ≥ grado(a) y j = grado(b) − grado(a) entonces sólo se calcula u ← u + v, g1 ← g1 + g2. Por el Teorema 1,
-MCD(a, b) = MCD(r, a). Este proceso es repetido hasta encontrar un residuo igual a cero. Si el grado(r) ≺ grado(b), el
-número de divisiones enteras es a lo más k, en donde k = max {grado(a), grado(b)}.
+        </li>
+</ol>
 
 <section style="text-align: center">
     <figure>
@@ -107,41 +114,160 @@ número de divisiones enteras es a lo más k, en donde k = max {grado(a), grado(
     </figure>
 </section>
 
+<div style="height: 50px"/>
+<b><h5>Cifrado</h5></b>
+Cada caracter del texto plano debe convertirse en su representación decimal.
+<div style="height: 10px"/>
+<table>
+    <thead>
+    <tr>
+        <th>Texto</th>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+        <th>E</th>
+        <th>F</th>
+        <th>G</th>
+        <th>H</th>
+        <th>I</th>
+        <th>J</th>
+        <th>K</th>
+        <th>L</th>
+        <th>M</th>
+        <th>N</th>
+        <th>O</th>
+        <th>P</th>
+        <th>Q</th>
+        <th>R</th>
+        <th>S</th>
+        <th>T</th>
+        <th>U</th>
+        <th>V</th>
+        <th>W</th>
+        <th>X</th>
+        <th>Y</th>
+        <th>Z</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Valor</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>10</td>
+        <td>11</td>
+        <td>12</td>
+        <td>13</td>
+        <td>14</td>
+        <td>15</td>
+        <td>16</td>
+        <td>17</td>
+        <td>18</td>
+        <td>19</td>
+        <td>20</td>
+        <td>21</td>
+        <td>22</td>
+        <td>23</td>
+        <td>24</td>
+        <td>25</td>
+        <td>26</td>
+    </tr>
+    </tbody>
+</table>
+<div style="height: 10px"/>
+De modo que el texto completo es representado con el número: 
+1234567891011121314151617181920212223242526
+<div style="height: 10px"/>
+<MudCard Style="background-color: ghostwhite">
+    <MudCardContent Style="padding: 3px">
+        <Equation Value="C=P^emod(n)"></Equation>
+        <div style="height: 10px"/>
+        <Equation Value="C={1234567891011121314151617181920212223242526}^emod(n)"></Equation>
+    </MudCardContent>
+</MudCard>
+
+<div style="height: 10px"/>
+Donde C representa al texto cifrado.
+<div style="height: 20px"/>
+<b><h5>Descifrado</h5></b>
+Teniendo el número C que representa al texto cifrado hacemos:
+<div style="height: 10px"/>
+<MudCard Style="background-color: ghostwhite">
+    <MudCardContent Style="padding: 3px">
+        <Equation Value="P=C^dmod(n)"></Equation>
+    </MudCardContent>
+</MudCard>
+<div style="height: 10px"/>
+El resultado de P será el número que representa al texto original
+
+<div style="height: 20px"/>
 <h5>Implementación propuesta:</h5>
 <pre class="line-numbers">
 <code class="language-cs">
-        @((MarkupString)@"PolynomialEq gx = this.Gx.Clone();
-PolynomialEq hx = this.Hx.Clone();
-PolynomialEq s2 = new PolynomialEq(""S_2"", XTerm.One);
-PolynomialEq s1 = new PolynomialEq(""S_1"", XTerm.Zero);
-PolynomialEq t2 = new PolynomialEq(""T_"", XTerm.Zero);
-PolynomialEq t1 = new PolynomialEq(""T_1"", XTerm.One);
-while (hx.IsNotZero)
+        @((MarkupString)@"double x = 3;
+double y = 7;
+  
+double n = x*y;
+  
+double e = 2;
+double phi = (x-1)*(y-1);
+while (e < phi)
 {
-    //Linea 9
-    PolynomialDivisionResult qxDiv = gx / hx;
-    PolynomialEq qx = qxDiv.Result.Mod().SetLetter('q');
-    PolynomialEq rx = qxDiv.Remainder.Mod().SetLetter('r');
-    //Linea 10
-    PolynomialEq sx = (s2 - (qx * s1)).Mod().SetLetter('s');
-    PolynomialEq tx = (t2 - (qx * t1)).Mod().SetLetter('t');
-    //Linea 11
-    gx = hx.Clone().SetLetter('g');
-    hx = rx.Clone().SetLetter('h');
-    //Linea 12
-    s2 = s1.Clone().SetLetter(""s2"");
-    s1 = sx.Clone().SetLetter(""s1"");
-    t2 = t1.Clone().SetLetter(""t2"");
-    t1 = tx.Clone().SetLetter(""t1"");
+    if (gcd(e, phi)==1)
+    break;
+        else
+    e++;
 }
-//Linea 14
-Dx = gx;
-Sx = s2;
-Tx = t2;");
+  
+BigInteger k 
+BigInteger limit = p * q;
+for (BigInteger i = 1; i < limit; i += 2)
+{
+    if (i != p && i != q){
+        if (i>1 && i < phi && phi % i != 0){
+            k=i;
+            break;
+        }
+    }
+}
+
+BigInteger d = (1 + (k*phi))/e;
+  
+BigInteger msg = 20;
+  
+// Cifrado
+BigInteger c = BigInteger.Pow(msg, e);
+c = BigInteger.Mod(c, n);
+  
+// Descifrado
+BigInteger m =BigInteger.Pow(c, d);
+m = BigInteger.Mod(m, n);
+    
+//Algoritmo extenido de euclides
+int gcd(int a, int h)
+{
+    int temp;
+    while (1)
+    {
+        temp = a%h;
+        if (temp == 0)
+          return h;
+        a = h;
+        h = temp;
+    }
+}");
   </code>
 </pre>
 
-<div style="height: 10vh"/>
+<div style="height: 10vh" />
 
 @code
 {
